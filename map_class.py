@@ -3,7 +3,6 @@
     Procedural vertex naming
     ...
 '''
-import queue
 
 
 class Map:
