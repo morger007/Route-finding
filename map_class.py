@@ -67,10 +67,3 @@ class Map:
         path_lengh = prev_vert_and_distance_dict[destination][1]
         path = path[::-1]
         return [path, path_lengh]
-
-
-
-
-
-
-
