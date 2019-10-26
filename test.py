@@ -17,4 +17,3 @@ print(m.adjacency_dict)
 print(m.vertex_coordinates_dict)
 path = m.findShortestPath('A','E')
 print(path[0],'of lengh:', path[1])
-asd

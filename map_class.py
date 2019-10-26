@@ -20,7 +20,8 @@ class Map:
     def addRoad(self, origin, destination, time, two_way):
         self.adjacency_dict[origin].append([destination, time])
         if two_way:
-            self.adjacency_dict[destination].append([origin, time])
+             self.adjacency_dict[destination] = [origin, time]
+
 
     def findShortestPath(self, origin, destination):
         path = ''
