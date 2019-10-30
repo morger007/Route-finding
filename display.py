@@ -1,5 +1,7 @@
 from tkinter import Tk, Canvas, Frame, BOTH
+creating_map
 from road_map import coordinates, graph, boolean_graph
+
 
 
 class PointMap(Frame):
@@ -11,6 +13,7 @@ class PointMap(Frame):
         self.initUI()
 
     def initUI(self):
+      creating_map
         self.parent.title("Map of your town")
         self.pack(fill=BOTH, expand=1)
         all_colors = ["#ff0000", "#ff2b00",
@@ -27,7 +30,6 @@ class PointMap(Frame):
 
                 c.create_line(x, y, x1, y1, width=3, fill=all_colors[color_number])
             c.create_rectangle(x, y, x + 1, y, width=3, outline="#ffffff")
-
         c.pack(fill=BOTH)
 
 
