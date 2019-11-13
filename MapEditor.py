@@ -84,8 +84,7 @@ def junctButton(self):
         else:
             roads.append(['one_way', x1, y1, x2, y2, length])
             arrow_type = 'last'
-        road_graphics.append(
-            map_canvas.create_line(x1, y1, x2, y2, arrow=arrow_type, arrowshape=(15, 15, 15), fill="black", width=3, ))
+        road_graphics.append(map_canvas.create_line(x1, y1, x2, y2, arrow=arrow_type, arrowshape=(15, 15, 15), fill="black", width=3, ))
         this_road_button = Button(root, width=5, height=7, font='none 1', command=lambda: roadButton(this_road_button))
         this_road_button.place(x=(x1 + x2) / 2, y=(y1 + y2) / 2)
         road_buttons.append(this_road_button)
