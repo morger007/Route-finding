@@ -15,7 +15,7 @@ class Map:
     def addVertex(self, name, coords):
         current_vertecies = self.current_vertecies
         if name not in current_vertecies:
-            self.vertex_coordinates_dict[coords] = name
+            self.vertex_coordinates_dict[name] = coords
             self.current_vertex_coords.append(coords)
             self.adjacency_dict[name] = []
             current_vertecies.append(name)
@@ -83,8 +83,8 @@ class Map:
                 data = line.split(',')
                 for i in range(len(data)):
                     data[i] = data[i].strip()
-                origin = (data[1], data[2])
-                dest = (data[3], data[4])
+                origin = (int(data[1]), int(data[2]))
+                dest = (int(data[3]), int(data[4]))
                 if origin not in current_vertex_coords:
                     addVertex('n' + str(len(current_verticies)), origin)
                 if dest not in current_vertex_coords:

@@ -1,9 +1,10 @@
 import map_class as mp
 m = mp.Map()
-
 m.decodeMap("map.txt")
-print(m.adjacency_dict)
 print(m.current_vertecies)
-print(m.current_vertex_coords)
-path = m.findShortestPath("n1",'n0')
-print(path)
+path = m.findShortestPath("n5", 'n2')
+if not path == "No Path!":
+    print("Found path %s of length %s" % (path[0], path[1]))
+else:
+    print('No Path')
+
