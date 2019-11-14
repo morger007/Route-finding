@@ -32,8 +32,8 @@ coordinates = mp.Map().current_vertex_coords
 coordinates_to_name_dict = mp.Map().vertex_name_dict
 name_to_coordinates_dict = mp.Map().vertex_coordinates_dict
 graph = mp.Map().adjacency_dict
+path = mp.Map().findShortestPath(node1, node2)
 
-path = mp.Map().findShortestPath("n3", 'n6')
 # creating frame
 
 root = Tk()
