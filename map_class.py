@@ -9,12 +9,14 @@
 class Map:
     adjacency_dict = {}
     vertex_coordinates_dict = {}
+    vertex_name_dict = {}
     current_vertecies = []
     current_vertex_coords = []
 
     def addVertex(self, name, coords):
         current_vertecies = self.current_vertecies
         if name not in current_vertecies:
+            self.vertex_name_dict[coords] = name
             self.vertex_coordinates_dict[name] = coords
             self.current_vertex_coords.append(coords)
             self.adjacency_dict[name] = []

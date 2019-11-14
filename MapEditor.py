@@ -90,6 +90,7 @@ def junctButton(self):
         road_buttons.append(this_road_button)
         road_points = []
 
+
 def roadButton(self):
     global removing
     if removing:
@@ -99,6 +100,7 @@ def roadButton(self):
         del road_graphics[index]
         del roads[index]
         self.destroy()
+
 
 def save():
     with open(file_name_entry.get(), 'w') as f:
