@@ -1,5 +1,6 @@
 from tkinter import *
 import map_class as mp
+
 import math
 
 
@@ -53,9 +54,20 @@ def change_mode():
     if c['background'] == "#000000":
         c['background'] = "#DCDCDC"
         c.itemconfigure('oval', outline='#000000', width=4)
+        c.itemconfig(start_text, fill='black')
+        c.itemconfig(destination_text, fill='black')
     else:
         c['background'] = "#000000"
         c.itemconfigure('oval', outline='#ffffff', width=3)
+        c.itemconfig(start_text, fill='white')
+        c.itemconfig(destination_text, fill='white')
+
+
+filename = input('Sisestage kaardi failinimi: ')
+mp.Map().decodeMap(filename)
+print('Punktid kaardis: ' + str(mp.Map().current_vertecies))
+node1 = input('Sisestage aluspunkt: ')
+node2 = input('Sisestage sihtpunkt: ')
 
 
 ''' path '''
@@ -94,33 +106,40 @@ def closest_node_name(event):
 
 # statics & variables
 
+
 counter = 0
 from_node_name, path, to_node_name = None, None, None
 canvas_color = "#000000"
-mp.Map().decodeMap("map.txt")
 coordinates = mp.Map().current_vertex_coords
-coordinates_to_name_dict = mp.Map().vertex_coordinates_dict
-name_to_coordinates_dict = mp.Map().vertex_coordinates_dict_vol2
+coordinates_to_name_dict = mp.Map().vertex_name_dict
+name_to_coordinates_dict = mp.Map().vertex_coordinates_dict
 graph = mp.Map().adjacency_dict
 
+
 # creating frame
+
 
 main_root = Tk()
 main_root.geometry("{}x{}".format(740, 720))
 main_root.title("Map of your town")
 c = Canvas(main_root, background=canvas_color, height=720, width=720)
 
+
 # day/night button
+
 
 b1 = Button(c)
 b1.place(x=700, y=680)
 b1.config(relief=SUNKEN, text='D/N', width=4, height=2, command=change_mode)
 c.pack(fill=BOTH)
 
+
 # find mouse coordinates and closest node
+
 
 c.bind("e", edit)
 c.bind("<Button 2>", edit)
+
 
 # creating map
 
