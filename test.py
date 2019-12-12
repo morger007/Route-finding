@@ -3,7 +3,6 @@ m = mp.Map()
 
 m.decodeMap("map.txt")
 print(m.adjacency_dict)
-print(m.current_vertecies)
-print(m.current_vertex_coords)
-path = m.findShortestPath("n0", 'n3')
+
+path = m.findShortestPath("n1", 'n1')
 print(path)

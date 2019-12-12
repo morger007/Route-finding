@@ -102,8 +102,8 @@ counter = 0
 from_node_name, path, to_node_name, image = None, None, None, None
 mp.Map().decodeMap("map.txt")
 coordinates = mp.Map().current_vertex_coords
-coordinates_to_name_dict = mp.Map().vertex_name_dict
-name_to_coordinates_dict = mp.Map().vertex_coordinates_dict
+coordinates_to_name_dict = mp.Map().vertex_coords_to_name
+name_to_coordinates_dict = mp.Map().vertex_name_to_coords
 graph = mp.Map().adjacency_dict
 
 

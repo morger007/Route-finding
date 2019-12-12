@@ -2,9 +2,6 @@ from tkinter import *
 import math
 from PIL import Image, ImageTk
 text = ''
-junctions = []
-junct_buttons = []
-road_buttons = []
 road_points = []
 road_graphics = []
 roads = []
@@ -12,18 +9,15 @@ scale_points = []
 scale_graphics = []
 junct_ids = []
 road_ids = [0]
-n_roads = 0
 state = [False, False, False, False]  # Scale, Juncts, Roads, Removing.
-drawingLine = 0
+drawingLine = False
 two_way = False
 scale = 1
 origin_x = 0
 origin_y = 0
 old_line = None
 scale_points = []
-dash = ''
-fill = "black"
-width = 2
+line_params = ['', 'black', 2]
 image = None
 
 
@@ -49,7 +43,6 @@ def placeJunct(coords):
                                         fill='black',activefill='red')
         map_canvas.tag_bind(button, '<ButtonPress-1>', lambda event, id=button, x=coords[0],
                                                               y=coords[1]: junctButton(id, x, y))
-        junct_buttons.append(Button)
 
 
 def switchWay():
@@ -126,13 +119,13 @@ def junctButton(id, x, y):
 
 
 def drawLine(event):
-    global origin_x, origin_y, old_line, fill, width, dash
+    global origin_x, origin_y, old_line
     if drawingLine:
         x, y = event.x, event.y
         map_canvas.delete(old_line)
         length = math.sqrt((origin_x - x) ** 2 + (origin_y - y) ** 2)
-        old_line = map_canvas.create_line(origin_x, origin_y, x-(x-origin_x)*2/length, y - (y-origin_y)*2/length,
-                                          width=width, fill=fill, dash=dash)
+        old_line = map_canvas.create_line(origin_x, origin_y, x - (x-origin_x) * 2 / length, y - (y-origin_y) * 2 / length,
+                                          width=line_params[2], fill=line_params[1], dash=line_params[0])
 
 
 def stopDrawing(event):
@@ -171,18 +164,18 @@ def save():
 
 
 def defineScale(coords):
-    global scale, drawingLine, origin_x, origin_y, dash, width, fill, scale_points
+    global scale, drawingLine, origin_x, origin_y, scale_points
     if state[0]:
         scale_points.append(coords)
         for i in range(len(scale_graphics)):
             map_canvas.delete(scale_graphics[i])
             scale_graphics[i] = ''
         drawingLine = True
-        dash, fill, width = (50, 2), 'red', 5
+        line_params[0], line_params[1], line_params[2] = (50, 2), 'red', 5
         deleteElements(scale_graphics, '')
         origin_x, origin_y = scale_points[0][0], scale_points[0][1]
         if len(scale_points) == 2:
-            dash, fill, width = '', 'black', 2
+            line_params[0], line_params[1], line_params[2] = '', 'black', 2
             x1 = scale_points[0][0]
             x2 = scale_points[1][0]
             y1 = scale_points[0][1]
@@ -196,6 +189,7 @@ def defineScale(coords):
                 length = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
                 scale = r_dist/length
             except:
+                text_box.config(text='Please enter a number')
                 pass
 
 
