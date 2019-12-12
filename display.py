@@ -27,14 +27,15 @@ def creating_path(path, line=None):
     create_background_picture()
     creating_map()
     c.tag_lower(img)
+    print(path)
     for i in range(len(path[0])-1):
         node_name = path[0][i]
         next_node_name = path[0][i+1]
         xStart, yStart = int(name_to_coordinates_dict[node_name][0]), int(name_to_coordinates_dict[node_name][1])
         xFinish, yFinish = int(name_to_coordinates_dict[next_node_name][0]), int(name_to_coordinates_dict[next_node_name][1])
+        print(xStart, yStart, xFinish, xFinish)
         line = c.create_line(xStart, yStart, xFinish, yFinish, width=3, fill="#6f2da8")
         c.tag_raise(line)
-
 
 def creating_nodes(coord):
     for Node in coord:
@@ -66,10 +67,7 @@ def e():
 
 def closest_node_name(event):
     global from_node_name, to_node_name, path, counter
-    if counter == 2:
-        counter = 0
-        c.unbind("<Button 1>")
-    else:
+    if not counter == 2:
         counter += 1
         x = event.x
         y = event.y
@@ -87,13 +85,15 @@ def closest_node_name(event):
             from_node_name = coordinates_to_name_dict[(str(x_closest), str(y_closest))]
         else:
             to_node_name = coordinates_to_name_dict[(str(x_closest), str(y_closest))]
-
+        if counter == 2:
+            counter = 0
+            c.unbind("<Button 1>")
         print(from_node_name, to_node_name, event)
         if to_node_name is not None:
             path = mp.Map().findShortestPath(from_node_name, to_node_name)
             creating_path(path)
             creating_nodes(coordinates)
-
+    print(counter)
 
 # statics & variables
 
@@ -111,7 +111,7 @@ graph = mp.Map().adjacency_dict
 
 
 main_root = Tk()
-main_root.geometry("{}x{}".format(1100, 1200))
+main_root.geometry("{}x{}".format(1920, 1080))
 main_root.title("Map of your town")
 c = Canvas(main_root, height=1080, width=1200)
 
@@ -119,9 +119,9 @@ c = Canvas(main_root, height=1080, width=1200)
 # edit
 
 
-b1 = Button(c)
-b1.place(x=2, y=2)
-b1.config(relief=SUNKEN, text="Edit", width=4, height=2, command=e)
+b1 = Button(main_root)
+b1.place(x=1300, y=2)
+b1.config(text="Edit", width=4, height=2, command=e)
 c.pack(fill=BOTH)
 
 

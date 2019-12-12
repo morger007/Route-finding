@@ -40,7 +40,7 @@ class Map:
         def dijkstra(vertex):
             if vertex not in visited:
                 current_distance = prev_vert_and_distance_dict[vertex][1]
-                prev_distance = 99999
+                prev_distance = 999999999999999
                 visited.append(vertex)
                 next_vertex_to_visit = 'break'
                 for adj_vertex in adjacency_dict[vertex]:
@@ -53,7 +53,7 @@ class Map:
                             prev_distance = adj_vertex[1]
                 if next_vertex_to_visit == 'break':
                     return
-                dijkstra(next_vertex_to_visit)
+            dijkstra(next_vertex_to_visit)
 
         def createPath(dest):
             nonlocal path

@@ -4,5 +4,5 @@ m = mp.Map()
 m.decodeMap("map.txt")
 print(m.adjacency_dict)
 
-path = m.findShortestPath("n1", 'n1')
+path = m.findShortestPath("n7", 'n2')
 print(path)
