@@ -80,8 +80,6 @@ def junctButton(id, x, y):
     if len(road_points) == 2:
         try:
             speed = int(speed_entry.get())
-            print(speed)
-            print(scale)
         except:
             pass
         x1 = road_points[0][0]
@@ -160,6 +158,7 @@ def roadButton(id):
 def save():
     with open(file_name_entry.get(), 'w') as f:
         for road in roads:
+            road[5] = round(road[5]*scale, 2)
             f.write(str(road).strip(']').strip('[') + '\n')
 
 
@@ -185,7 +184,8 @@ def defineScale(coords):
             del scale_points[0]
             stopDrawing('')
             try:
-                r_dist = int(scale_entry.get())
+                r_dist = float(scale_entry.get())
+                print(r_dist)
                 length = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
                 scale = r_dist/length
             except:
@@ -201,12 +201,40 @@ def onClick(event):
 
 
 def loadMap():
-    global image
+    global image, new_width
     filename = map_file_entry.get()
     pil_image = Image.open(filename)
-    pil_image = pil_image.resize((1200, 1080))
+    width, height = pil_image.size
+    new_width = int((1080*(width/height)))
+    pil_image = pil_image.resize((new_width, 1080))
+    width, height = pil_image.size
+    if new_width > 1600:
+        diff = new_width - 1600
+        pil_image = pil_image.crop((diff, 0, width, height))
+        new_width = pil_image.size[0]
     image = ImageTk.PhotoImage(pil_image)
-    map_canvas.create_image(600, 540, image=image)
+    map_canvas.config(width=new_width)
+    map_canvas.create_image(new_width / 2, 540, image=image)
+    placeUI(new_width-1300)
+
+
+def placeUI(offset=0):
+    x = 1370+offset
+    junct_button.place(x=x, y=70, anchor='center')
+    remove_button.place(x=x, y=230, anchor='center')
+    road_button.place(x=x, y=150, anchor='center')
+    road_type_button.place(x=x+100, y=150, anchor='center')
+    scale_button.place(x=x, y=310, anchor='center')
+    save_button.place(x=x+150, y=680, anchor='center')
+    load_map_button.place(x=x+150, y=600, anchor='center')
+
+    scale_text_box.place(x=x+100, y=300)
+    text_box.place(x=x-40, y=300)
+    file_name_entry.place(x=x-40, y=670)
+    scale_entry.place(x=x+65, y=300)
+    speed_entry.place(x=x+150, y=140)
+    speed_text_box.place(x=x+180, y=140)
+    map_file_entry.place(x=x-40, y=590)
 
 
 root = Tk()
@@ -227,14 +255,6 @@ scale_button = Button(root, text='Scale', width=12, height=2, command=lambda: se
 save_button = Button(root, text='save', width=12, height=2, command=save)
 load_map_button = Button(root, text='Load Map Image', width=12, height=2, command=loadMap)
 
-junct_button.place(x=1300, y=70, anchor='center')
-remove_button.place(x=1300, y=230, anchor='center')
-road_button.place(x=1300, y=150, anchor='center')
-road_type_button.place(x=1400, y=150, anchor='center')
-scale_button.place(x=1300, y=310, anchor='center')
-save_button.place(x=1450, y=680, anchor='center')
-load_map_button.place(x=1450, y=600, anchor='center')
-
 text_box = Label(root, text=text, font='Calibri 14')
 scale_text_box = Label(root, text='km', font='Calibri 12')
 scale_entry = Entry(root, width=3, font='Calibri 12')
@@ -243,12 +263,6 @@ speed_text_box = Label(root, text='km/h', font='Calibri 12')
 file_name_entry = Entry(root)
 map_file_entry = Entry(root)
 
-scale_text_box.place(x=1400, y=300)
-text_box.place(x=1260, y=300)
-file_name_entry.place(x=1260, y=670)
-scale_entry.place(x=1365, y=300)
-speed_entry.place(x=1450, y=140)
-speed_text_box.place(x=1480, y=140)
-map_file_entry.place(x=1260, y=590)
+placeUI()
 
 mainloop()
