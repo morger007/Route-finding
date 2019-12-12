@@ -1,5 +1,6 @@
 from tkinter import *
 import map_class as mp
+
 import math
 from PIL import Image, ImageTk
 
@@ -96,27 +97,33 @@ def closest_node_name(event):
 
 # statics & variables
 
+
 counter = 0
 from_node_name, path, to_node_name, image = None, None, None, None
 mp.Map().decodeMap("map.txt")
 coordinates = mp.Map().current_vertex_coords
-coordinates_to_name_dict = mp.Map().vertex_coordinates_dict
-name_to_coordinates_dict = mp.Map().vertex_coordinates_dict_vol2
+coordinates_to_name_dict = mp.Map().vertex_name_dict
+name_to_coordinates_dict = mp.Map().vertex_coordinates_dict
 graph = mp.Map().adjacency_dict
 
+
 # creating frame
+
 
 main_root = Tk()
 main_root.geometry("{}x{}".format(1100, 1200))
 main_root.title("Map of your town")
 c = Canvas(main_root, height=1080, width=1200)
 
+
 # edit
+
 
 b1 = Button(c)
 b1.place(x=2, y=2)
 b1.config(relief=SUNKEN, text="Edit", width=4, height=2, command=e)
 c.pack(fill=BOTH)
+
 
 # creating map
 

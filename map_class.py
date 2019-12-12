@@ -1,6 +1,7 @@
 """
     Todo:
     Procedural vertex naming
+    asd
     ...
 """
 
@@ -8,6 +9,7 @@
 class Map:
     adjacency_dict = {}
     vertex_coordinates_dict = {}
+    vertex_name_dict = {}
     current_vertecies = []
     current_vertex_coords = []
     vertex_coordinates_dict_vol2 = {}
