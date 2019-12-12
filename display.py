@@ -2,7 +2,7 @@ from tkinter import *
 import map_class as mp
 
 import math
-
+from PIL import Image, ImageTk
 
 ''' connected with map creating '''
 
@@ -24,7 +24,9 @@ def creating_map():
 
 def creating_path(path, line=None):
     c.delete("all")
+    create_background_picture()
     creating_map()
+    c.tag_lower(img)
     for i in range(len(path[0])-1):
         node_name = path[0][i]
         next_node_name = path[0][i+1]
@@ -37,37 +39,26 @@ def creating_path(path, line=None):
 def creating_nodes(coord):
     for Node in coord:
         x, y = int(Node[0]), int(Node[1])
-        oval = c.create_oval(x - 1, y - 1, x + 1, y + 1, width=3, outline="#ffffff", fill="#ffffff", tag='oval')
+        oval = c.create_oval(x - 1, y - 1, x + 1, y + 1, width=3, outline="#1f75fe", fill="#1f75fe", tag='oval')
         c.lift(oval)
+
+
+def create_background_picture():
+    global image, img
+    filename = "kesklinn_6t_285x207_tartu.jfif"
+    pil_image = Image.open(filename)
+    pil_image = pil_image.resize((1200, 1080))
+    image = ImageTk.PhotoImage(pil_image)
+    img = c.create_image(600, 540, image=image)
 
 
 ''' map events '''
 
 
-def edit(event):
+def e():
     global from_node_name, to_node_name, path, counter
     from_node_name, path, to_node_name = None, None, None
     c.bind("<Button 1>", closest_node_name)
-
-
-def change_mode():
-    if c['background'] == "#000000":
-        c['background'] = "#DCDCDC"
-        c.itemconfigure('oval', outline='#000000', width=4)
-        c.itemconfig(start_text, fill='black')
-        c.itemconfig(destination_text, fill='black')
-    else:
-        c['background'] = "#000000"
-        c.itemconfigure('oval', outline='#ffffff', width=3)
-        c.itemconfig(start_text, fill='white')
-        c.itemconfig(destination_text, fill='white')
-
-
-filename = input('Sisestage kaardi failinimi: ')
-mp.Map().decodeMap(filename)
-print('Punktid kaardis: ' + str(mp.Map().current_vertecies))
-node1 = input('Sisestage aluspunkt: ')
-node2 = input('Sisestage sihtpunkt: ')
 
 
 ''' path '''
@@ -108,8 +99,8 @@ def closest_node_name(event):
 
 
 counter = 0
-from_node_name, path, to_node_name = None, None, None
-canvas_color = "#000000"
+from_node_name, path, to_node_name, image = None, None, None, None
+mp.Map().decodeMap("map.txt")
 coordinates = mp.Map().current_vertex_coords
 coordinates_to_name_dict = mp.Map().vertex_name_dict
 name_to_coordinates_dict = mp.Map().vertex_coordinates_dict
@@ -120,29 +111,24 @@ graph = mp.Map().adjacency_dict
 
 
 main_root = Tk()
-main_root.geometry("{}x{}".format(740, 720))
+main_root.geometry("{}x{}".format(1100, 1200))
 main_root.title("Map of your town")
-c = Canvas(main_root, background=canvas_color, height=720, width=720)
+c = Canvas(main_root, height=1080, width=1200)
 
 
-# day/night button
+# edit
 
 
 b1 = Button(c)
-b1.place(x=700, y=680)
-b1.config(relief=SUNKEN, text='D/N', width=4, height=2, command=change_mode)
+b1.place(x=2, y=2)
+b1.config(relief=SUNKEN, text="Edit", width=4, height=2, command=e)
 c.pack(fill=BOTH)
-
-
-# find mouse coordinates and closest node
-
-
-c.bind("e", edit)
-c.bind("<Button 2>", edit)
 
 
 # creating map
 
+create_background_picture()
 creating_map()
+c.tag_lower(img)
 
 main_root.mainloop()
