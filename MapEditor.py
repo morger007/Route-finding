@@ -201,7 +201,7 @@ def onClick(event):
 
 
 def loadMap():
-    global image, new_width
+    global image
     filename = map_file_entry.get()
     pil_image = Image.open(filename)
     width, height = pil_image.size
