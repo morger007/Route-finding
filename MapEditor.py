@@ -17,6 +17,7 @@ origin_x = 0
 origin_y = 0
 old_line = None
 image = None
+bg_image = None
 
 line_params = ['', 'black', 2]
 map_img_name = ''
@@ -207,8 +208,8 @@ def onClick(event):
     defineScale((x, y))
 
 
-def loadMap():
-    global image, map_img_name
+def loadMapImage():
+    global image, map_img_name, bg_image
     filename = map_file_entry.get()
     try:
         pil_image = Image.open(filename)
@@ -226,8 +227,16 @@ def loadMap():
         new_width = pil_image.size[0]
     image = ImageTk.PhotoImage(pil_image)
     map_canvas.config(width=new_width)
-    map_canvas.create_image(new_width / 2, 540, image=image)
+    bg_image = map_canvas.create_image(new_width / 2, 540, image=image)
     placeUI(new_width - 1300)
+
+
+def removeImage():
+    global bg_image
+    if bg_image:
+        placeUI(0)
+        map_canvas.delete(bg_image)
+        bg_image = None
 
 
 def placeUI(offset=0):
@@ -239,6 +248,7 @@ def placeUI(offset=0):
     scale_button.place(x=x, y=310, anchor='center')
     save_button.place(x=x + 150, y=680, anchor='center')
     load_map_button.place(x=x + 150, y=600, anchor='center')
+    remove_image_button.place(x=x + 210, y= 585)
 
     scale_text_box.place(x=x + 100, y=300)
     text_box.place(x=x - 50, y=350)
@@ -265,7 +275,8 @@ road_button = Button(root, text='Place Roads', width=12, height=2, command=lambd
 road_type_button = Button(root, text='Two-way?', width=10, height=1, command=switchWay)
 scale_button = Button(root, text='Scale', width=12, height=2, command=lambda: setState(0))
 save_button = Button(root, text='save', width=12, height=2, command=save)
-load_map_button = Button(root, text='Load Map Image', width=12, height=2, command=loadMap)
+load_map_button = Button(root, text='Load Map Image', width=14, height=2, command=loadMapImage)
+remove_image_button = Button(root, text='Remove Image', width=12, heigh=1, command=removeImage)
 
 text_box = Label(root, text=text, font='Calibri 14', foreground='red')
 scale_text_box = Label(root, text='km', font='Calibri 12')
