@@ -248,7 +248,7 @@ def placeUI(offset=0):
     scale_button.place(x=x, y=310, anchor='center')
     save_button.place(x=x + 150, y=680, anchor='center')
     load_map_button.place(x=x + 150, y=600, anchor='center')
-    remove_image_button.place(x=x + 210, y= 585)
+    remove_image_button.place(x=x + 215, y=585)
 
     scale_text_box.place(x=x + 100, y=300)
     text_box.place(x=x - 50, y=350)
@@ -269,7 +269,7 @@ map_canvas.place(x=0, y=540, anchor='w')
 map_canvas.bind('<Motion>', drawLine)
 root.bind('<Button-3>', stopDrawing)
 
-junct_button = Button(root, text='Place junctions', width=12, height=2, command=lambda: setState(1))
+junct_button = Button(root, text='Place Junctions', width=12, height=2, command=lambda: setState(1))
 remove_button = Button(root, text='Remove', width=12, height=2, command=lambda: setState(3))
 road_button = Button(root, text='Place Roads', width=12, height=2, command=lambda: setState(2))
 road_type_button = Button(root, text='Two-way?', width=10, height=1, command=switchWay)
