@@ -1,17 +1,16 @@
-"""
-    Todo:
-    Procedural vertex naming
-    asd
-    ...
-"""
-
-
 class Map:
     adjacency_dict = {}
     vertex_coords_to_name = {}
     vertex_name_to_coords = {}
     current_vertecies = []
     current_vertex_coords = []
+
+    def clear(self):
+        self.adjacency_dict = {}
+        self.vertex_coords_to_name = {}
+        self.vertex_name_to_coords = {}
+        self.current_vertecies = []
+        self.current_vertex_coords = []
 
     def addVertex(self, name, coords):
         current_vertecies = self.current_vertecies
@@ -31,29 +30,33 @@ class Map:
         path = []
         adjacency_dict = self.adjacency_dict
         visited = []
+        unvisited = []
         prev_vert_and_distance_dict = {}
         current_vertecies = self.current_vertecies
         for vertex in current_vertecies:
-            prev_vert_and_distance_dict[vertex] = ['', 99999]
-        prev_vert_and_distance_dict[origin] = ['', 0]
+            unvisited.append(vertex)
+            prev_vert_and_distance_dict[vertex] = [vertex, 9999999999]
+        prev_vert_and_distance_dict[origin] = [origin, 0]
 
         def dijkstra(vertex):
-            if vertex not in visited:
-                current_distance = prev_vert_and_distance_dict[vertex][1]
-                prev_distance = 999999999999999
-                visited.append(vertex)
-                next_vertex_to_visit = 'break'
-                for adj_vertex in adjacency_dict[vertex]:
-                    distance_to_adj_vert = adj_vertex[1] + current_distance
-                    if distance_to_adj_vert < prev_vert_and_distance_dict[adj_vertex[0]][1]:
-                        prev_vert_and_distance_dict[adj_vertex[0]] = [vertex, distance_to_adj_vert]
-                    if adj_vertex[0] not in visited:
-                        if adj_vertex[1] < prev_distance:
-                            next_vertex_to_visit = adj_vertex[0]
-                            prev_distance = adj_vertex[1]
-                if next_vertex_to_visit == 'break':
-                    return
-            dijkstra(next_vertex_to_visit)
+            current_distance = prev_vert_and_distance_dict[vertex][1]
+            visited.append(vertex)
+            unvisited.remove(vertex)
+            for adj_vertex in adjacency_dict[vertex]:
+                distance_to_adj_vert = adj_vertex[1] + current_distance
+                if distance_to_adj_vert < prev_vert_and_distance_dict[adj_vertex[0]][1]:
+                    prev_vert_and_distance_dict[adj_vertex[0]] = [vertex, distance_to_adj_vert]
+            min_distance = 99999999
+            next_vertex_to_vist = ''
+            if not unvisited:
+                return
+            for v in unvisited:
+                if prev_vert_and_distance_dict[v][1] < min_distance:
+                    next_vertex_to_vist = v
+                    min_distance = prev_vert_and_distance_dict[v][1]
+            dijkstra(next_vertex_to_vist)
+
+        dijkstra(origin)
 
         def createPath(dest):
             nonlocal path
@@ -61,11 +64,10 @@ class Map:
                 if vertex == dest:
                     next_destination = prev_vert_and_distance_dict[vertex][0]
                     path.append(vertex)
-                    if next_destination == destination:
+                    if next_destination == dest:
                         return
                     createPath(next_destination)
 
-        dijkstra(origin)
         createPath(destination)
         path_lengh = prev_vert_and_distance_dict[destination][1]
         path = path[::-1]
@@ -81,7 +83,7 @@ class Map:
         with open(filename) as f:
             lines = f.read().split("\n")
         for line in lines:
-            if not line == '':
+            if not line == '' and not line[0] == '#':
                 data = line.split(',')
                 for i in range(len(data)):
                     data[i] = data[i].strip()
