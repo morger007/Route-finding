@@ -1,4 +1,4 @@
-# progproj
+# Route-finding
 Main features:  <br />
   - Map editor for creating maps, supports one- and two-way roads, different road speeds, the user is able to set the scale of the map
   - Display app, which allows the user to open a map file, select any two points and then displays the fastest route between them along with travel time 
